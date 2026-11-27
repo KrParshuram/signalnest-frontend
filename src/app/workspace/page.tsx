@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { Activity, ArrowUpRight, Inbox, LogOut, MessageSquareQuote, Sparkles } from "lucide-react";
 import { useAuth } from "@/features/auth/auth-provider";
@@ -50,7 +51,8 @@ export default function WorkspacePage() {
             <span className="grid size-9 place-items-center rounded-xl bg-[#1e5547] text-sm text-white">S</span>
             <span className="text-lg">signalnest</span>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            <Link href="/feedback" className="rounded-xl border border-[#dce5df] px-3 py-2 text-sm font-medium text-[#52675c] transition hover:bg-[#f5f8f5]">Feedback inbox</Link>
             <div className="hidden text-right sm:block">
               <p className="text-sm font-medium">{user.name}</p>
               <p className="text-xs text-[#829087]">{organization.name}</p>
