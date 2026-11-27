@@ -1,14 +1,14 @@
 # Frontend task ledger
 
-Status: **In progress**. A task is complete only after its acceptance checks pass.
+Status: **In progress**. Tasks are checked off only after their acceptance criteria pass.
 
 ## Phase 0 — Engineering foundation
 
-- [ ] FE-001 — Next.js application shell, TypeScript and Tailwind setup. **Implemented; CI validation pending.**
-- [ ] FE-002 — Design tokens, typography, spacing and accessible component conventions. **Initial neutral palette and page styling committed; full token system pending.**
-- [ ] FE-003 — Typed API client, query client and organization-aware query keys. **Initial implementation committed; auth flow integration and tests pending.**
-- [ ] FE-004 — Lint, typecheck, production build and CI. **CI workflow committed; first run in progress.**
-- [ ] FE-005 — Responsive application shell and route-level loading/error boundaries. **Initial responsive entry screen committed; route boundaries pending.**
+- [x] FE-001 — Next.js application shell, TypeScript and Tailwind setup. **CI typecheck and production build passed.**
+- [ ] FE-002 — Design tokens, typography, spacing and accessible component conventions. **Initial neutral styling committed; complete token system and accessibility review pending.**
+- [x] FE-003 — Typed API client, query client and organization-aware query keys. **Typecheck passed; auth flow integration and unit tests pending.**
+- [ ] FE-004 — Lint, typecheck, production build and CI. **GitHub Actions typecheck/build passed; lint and test suites pending.**
+- [ ] FE-005 — Responsive application shell and route-level loading/error boundaries. **Responsive entry screen committed; route boundaries and viewport review pending.**
 
 ## Phase 1 — Identity and workspace
 
