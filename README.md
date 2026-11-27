@@ -27,7 +27,7 @@ The frontend runs at `http://localhost:3000`.
 - In-memory access token and HttpOnly refresh-cookie session restoration.
 - Logout and protected workspace/onboarding navigation.
 - Organization and first-brand onboarding.
-- Feedback Inbox with search, brand, sentiment, topic, status and date filters.
+- Feedback Inbox with search, brand, source, sentiment, topic, status and date filters.
 - Date-added/published-date sorting and cursor pagination.
 - Manual feedback capture with original content, author, source URL, publication date and topic tags.
 - Feedback detail view with private internal notes and archive/restore controls.
