@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { AuthLayout } from "@/components/auth/auth-layout";
 import { ApiError } from "@/lib/api/client";
 import { useAuth } from "@/features/auth/auth-provider";
@@ -15,9 +15,9 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
-  if (status === "authenticated" && user) {
-    router.replace(organizations.length ? "/workspace" : "/onboarding");
-  }
+  useEffect(() => {
+    if (status === "authenticated" && user) router.replace(organizations.length ? "/workspace" : "/onboarding");
+  }, [status, user, organizations.length, router]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
