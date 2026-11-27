@@ -117,6 +117,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         method: "POST",
         retryOnUnauthorized: false,
       });
+    } catch {
+      // Clear the local session even when the server session has already expired.
     } finally {
       setAccessToken(null);
       setUser(null);
