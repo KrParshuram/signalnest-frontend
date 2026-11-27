@@ -18,6 +18,10 @@ export const queryKeys = {
     all: ["topics"] as const,
     list: (organizationId: string) => [...queryKeys.topics.all, organizationId] as const,
   },
+  imports: {
+    all: ["imports"] as const,
+    detail: (jobId: string) => [...queryKeys.imports.all, jobId] as const,
+  },
   feedback: {
     all: ["feedback"] as const,
     list: (organizationId: string, brandId: string | null, filters: unknown) =>
