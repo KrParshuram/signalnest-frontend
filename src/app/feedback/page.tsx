@@ -116,7 +116,7 @@ export default function FeedbackInboxPage() {
             <p className="mt-2 text-sm text-[#718078]">Every customer signal, in one searchable place.</p>
           </div>
           {canManage && <div className="flex flex-wrap gap-2">
-            {["OWNER", "ADMIN", "MANAGER"].includes(organization.role) && <Link href="/feedback/import/csv" className="inline-flex items-center gap-2 rounded-xl border border-[#dce5df] bg-white px-4 py-3 text-sm font-semibold text-[#52675c] transition hover:bg-[#f5f8f5]">Import CSV</Link>}
+            {["OWNER", "ADMIN", "MANAGER"].includes(organization.role) && <><Link href="/feedback/import/csv" className="inline-flex items-center gap-2 rounded-xl border border-[#dce5df] bg-white px-4 py-3 text-sm font-semibold text-[#52675c] transition hover:bg-[#f5f8f5]">Import CSV</Link><Link href="/feedback/import/url" className="inline-flex items-center gap-2 rounded-xl border border-[#dce5df] bg-white px-4 py-3 text-sm font-semibold text-[#52675c] transition hover:bg-[#f5f8f5]">Capture URL</Link></>}
             <Link href="/feedback/new" className="inline-flex items-center gap-2 rounded-xl bg-[#1e5547] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#174638]"><Plus size={16} /> Add feedback</Link>
           </div>}
         </div>
