@@ -9,6 +9,7 @@ import { apiRequest } from "@/lib/api/client";
 import { queryKeys } from "@/lib/query-keys";
 
 type Brand = { id: string; name: string };
+type Topic = { id: string; name: string };
 type FeedbackItem = {
   id: string;
   originalContent: string;
@@ -45,6 +46,7 @@ export default function FeedbackInboxPage() {
   const [search, setSearch] = useState("");
   const [brandId, setBrandId] = useState("");
   const [sentiment, setSentiment] = useState("");
+  const [topicId, setTopicId] = useState("");
   const [statusFilter, setStatusFilter] = useState("ACTIVE");
   const [cursors, setCursors] = useState<string[]>([]);
   const deferredSearch = useDeferredValue(search);
@@ -55,13 +57,19 @@ export default function FeedbackInboxPage() {
     enabled: status === "authenticated" && Boolean(organization),
   });
 
+  const topicsQuery = useQuery({
+    queryKey: organization ? queryKeys.topics.list(organization.id) : ["topics", "none"],
+    queryFn: () => apiRequest<Topic[]>(`/topics?organizationId=${organization!.id}`),
+    enabled: status === "authenticated" && Boolean(organization),
+  });
   const filters = useMemo(() => ({
     search: deferredSearch.trim(),
     brandId,
     sentiment,
+    topicId,
     status: statusFilter,
     cursor: cursors.at(-1) ?? null,
-  }), [deferredSearch, brandId, sentiment, statusFilter, cursors]);
+  }), [deferredSearch, brandId, sentiment, topicId, statusFilter, cursors]);
 
   const feedbackQuery = useQuery({
     queryKey: organization ? queryKeys.feedback.list(organization.id, brandId || null, filters) : ["feedback", "none"],
@@ -70,6 +78,7 @@ export default function FeedbackInboxPage() {
       if (deferredSearch.trim()) params.set("search", deferredSearch.trim());
       if (brandId) params.set("brandId", brandId);
       if (sentiment) params.set("sentiment", sentiment);
+      if (topicId) params.set("topicId", topicId);
       if (filters.cursor) params.set("cursor", filters.cursor);
       return apiRequest<FeedbackResponse>(`/feedback?${params.toString()}`);
     },
@@ -110,7 +119,7 @@ export default function FeedbackInboxPage() {
         </div>
 
         <div className="mt-8 rounded-2xl border border-[#e0e8e2] bg-white p-4 sm:p-5">
-          <div className="grid gap-3 lg:grid-cols-[minmax(220px,1fr)_190px_180px_170px]">
+          <div className="grid gap-3 lg:grid-cols-[minmax(220px,1fr)_170px_160px_160px_160px]">
             <label className="relative block">
               <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#91a097]" />
               <input value={search} onChange={(event) => { setSearch(event.target.value); resetPagination(); }} placeholder="Search feedback, author or URL"
@@ -128,6 +137,11 @@ export default function FeedbackInboxPage() {
               <option value="NEGATIVE">Negative</option>
               <option value="NEUTRAL">Neutral</option>
               <option value="UNKNOWN">Unclassified</option>
+            </select>
+            <select aria-label="Filter by topic" value={topicId} onChange={(event) => { setTopicId(event.target.value); resetPagination(); }}
+              className="rounded-xl border border-[#e2e9e3] bg-white px-3 py-3 text-sm outline-none focus:border-[#477766]">
+              <option value="">All topics</option>
+              {(topicsQuery.data ?? []).map((topic) => <option key={topic.id} value={topic.id}>{topic.name}</option>)}
             </select>
             <select aria-label="Filter by status" value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); resetPagination(); }}
               className="rounded-xl border border-[#e2e9e3] bg-white px-3 py-3 text-sm outline-none focus:border-[#477766]">
@@ -149,9 +163,9 @@ export default function FeedbackInboxPage() {
           ) : items.length === 0 ? (
             <div className="px-6 py-16 text-center">
               <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#f0f5f1] text-[#477766]"><Inbox size={22} /></span>
-              <h2 className="mt-4 font-semibold">{search || brandId || sentiment ? "No feedback matches these filters" : "Your inbox is ready"}</h2>
-              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#829087]">{search || brandId || sentiment ? "Try changing or clearing your filters." : "Add your first customer feedback item. CSV and URL imports will be added in the next capture milestone."}</p>
-              {canManage && !search && !brandId && !sentiment && <Link href="/feedback/new" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#1e5547] px-4 py-2.5 text-sm font-semibold text-white"><Plus size={15} /> Add feedback</Link>}
+              <h2 className="mt-4 font-semibold">{search || brandId || sentiment || topicId ? "No feedback matches these filters" : "Your inbox is ready"}</h2>
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#829087]">{search || brandId || sentiment || topicId ? "Try changing or clearing your filters." : "Add your first customer feedback item. CSV and URL imports will be added in the next capture milestone."}</p>
+              {canManage && !search && !brandId && !sentiment && !topicId && <Link href="/feedback/new" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#1e5547] px-4 py-2.5 text-sm font-semibold text-white"><Plus size={15} /> Add feedback</Link>}
             </div>
           ) : (
             <div className="divide-y divide-[#edf1ed]">
