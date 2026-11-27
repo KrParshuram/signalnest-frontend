@@ -10,6 +10,7 @@ import { apiRequest, ApiError } from "@/lib/api/client";
 import { queryKeys } from "@/lib/query-keys";
 
 type Brand = { id: string; name: string };
+type Topic = { id: string; name: string };
 type CreatedFeedback = { id: string };
 
 export default function NewFeedbackPage() {
@@ -18,6 +19,7 @@ export default function NewFeedbackPage() {
   const { status, organizations } = useAuth();
   const organization = organizations[0];
   const [brandId, setBrandId] = useState("");
+  const [topicIds, setTopicIds] = useState<string[]>([]);
   const [content, setContent] = useState("");
   const [author, setAuthor] = useState("");
   const [sourceUrl, setSourceUrl] = useState("");
@@ -31,6 +33,11 @@ export default function NewFeedbackPage() {
     enabled: status === "authenticated" && Boolean(organization),
   });
 
+  const topicsQuery = useQuery({
+    queryKey: organization ? queryKeys.topics.list(organization.id) : ["topics", "none"],
+    queryFn: () => apiRequest<Topic[]>(`/topics?organizationId=${organization!.id}`),
+    enabled: status === "authenticated" && Boolean(organization),
+  });
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!organization) return;
@@ -43,6 +50,7 @@ export default function NewFeedbackPage() {
           organizationId: organization.id,
           brandId,
           originalContent: content,
+          topicIds,
           authorDisplayName: author || undefined,
           sourceUrl: sourceUrl || undefined,
           publishedAt: publishedAt ? new Date(publishedAt).toISOString() : undefined,
@@ -85,6 +93,14 @@ export default function NewFeedbackPage() {
               onChange={(event) => setContent(event.target.value)} placeholder="Paste the customer's feedback exactly as it was received…"
               className="w-full resize-y rounded-xl border border-[#dce5df] px-4 py-3 text-sm leading-6 outline-none focus:border-[#477766] focus:ring-4 focus:ring-[#477766]/10" />
             <p className="mt-1 text-right text-xs text-[#9aa69e]">{content.length.toLocaleString()} / 20,000</p>
+          </div>
+          <div>
+            <label htmlFor="topics" className="mb-2 block text-sm font-medium">Topics <span className="font-normal text-[#8a968f]">· optional</span></label>
+            <select id="topics" multiple value={topicIds} onChange={(event) => setTopicIds(Array.from(event.target.selectedOptions, (option) => option.value))}
+              className="min-h-32 w-full rounded-xl border border-[#dce5df] bg-white px-3 py-2 text-sm outline-none focus:border-[#477766]">
+              {(topicsQuery.data ?? []).map((topic) => <option key={topic.id} value={topic.id} className="rounded-md px-2 py-1">{topic.name}</option>)}
+            </select>
+            <p className="mt-1 text-xs text-[#8a968f]">Select multiple topics using Ctrl (Windows) or Command (Mac).</p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
