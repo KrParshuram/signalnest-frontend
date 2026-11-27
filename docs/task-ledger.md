@@ -21,11 +21,11 @@ Status: **In progress**. Tasks are checked off only after their acceptance crite
 ## Phase 2 — Feedback capture
 
 - [x] FE-201 — Feedback Inbox list with loading/empty/error states. **Implemented and CI-validated.**
-- [ ] FE-202 — Search, filters, sorting and pagination. **Search, brand, sentiment, topic and status filters plus cursor pagination implemented; date filters and sorting remain.**
+- [x] FE-202 — Search, filters, sorting and pagination. **Search, brand, sentiment, topic, status and date filters; date-added/published-date sorting; cursor pagination.**
 - [x] FE-203 — Feedback detail and internal notes. **Implemented and CI-validated.**
 - [x] FE-204 — Manual feedback form. **Original content, brand, source URL, author, publication date and topic tags supported.**
-- [x] FE-205 — CSV import preview and progress. **Multipart upload, validation preview, row-level errors, explicit confirmation and asynchronous job progress implemented; CI build passed.**
-- [ ] FE-206 — URL capture flow.
+- [x] FE-205 — CSV import preview and progress. **Multipart upload, validation preview, row-level errors, explicit confirmation and import status polling implemented; UI build passed.**
+- [x] FE-206 — URL capture flow. **Manual URL + user-provided feedback preview, explicit confirmation and import status polling implemented; UI build passed.**
 
 ## Phase 3 — Intelligence and social proof
 
