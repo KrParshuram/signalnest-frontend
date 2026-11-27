@@ -62,7 +62,8 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   const execute = (token: string | null) => {
     const requestHeaders = new Headers(headers);
-    if (body !== undefined && !requestHeaders.has("Content-Type")) {
+    const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+    if (body !== undefined && !isFormData && !requestHeaders.has("Content-Type")) {
       requestHeaders.set("Content-Type", "application/json");
     }
     if (token) requestHeaders.set("Authorization", `Bearer ${token}`);
@@ -71,7 +72,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
       ...requestOptions,
       credentials: "include",
       headers: requestHeaders,
-      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+      ...(body === undefined ? {} : { body: isFormData ? body as FormData : JSON.stringify(body) }),
     });
   };
 
