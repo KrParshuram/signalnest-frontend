@@ -31,8 +31,9 @@ The frontend runs at `http://localhost:3000`.
 - Cursor pagination and loading/empty/error states.
 - Manual feedback capture with original content, author, source URL, publication date and topic tags.
 - Feedback detail view with private internal notes and archive/restore controls.
+- CSV upload preview, row-level validation, explicit confirmation and asynchronous import progress.
 - Organization-aware TanStack Query keys and typed API client.
 
-CSV import, URL capture, date filters, sorting, AI insights, actions, testimonial studio and widget builder remain on the task ledger.
+URL capture, date filters, sorting, AI insights, actions, testimonial studio and widget builder remain on the task ledger.
 
 See [Frontend architecture](docs/architecture.md), [API integration contract](docs/api-integration.md), and [Task ledger](docs/task-ledger.md).
