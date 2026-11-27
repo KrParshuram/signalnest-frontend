@@ -21,16 +21,18 @@ Requirements: Node.js 22+ and npm.
 
 The frontend runs at `http://localhost:3000`.
 
-## Current implementation
+## Implemented capabilities
 
-- Next.js application shell and product landing/workspace entry screen.
-- Tailwind CSS setup.
-- TanStack Query provider with server/client-safe QueryClient lifecycle.
-- Typed API client with in-memory access token, cookie credentials, single-flight refresh and one retry after a 401.
-- Query key factory that includes organization and brand context.
+- Registration and login forms with server validation feedback.
+- In-memory access token and HttpOnly refresh-cookie session restoration.
+- Logout and protected workspace/onboarding navigation.
+- Organization and first-brand onboarding.
+- Feedback Inbox with search, brand, sentiment, topic and status filters.
+- Cursor pagination and loading/empty/error states.
+- Manual feedback capture with original content, author, source URL, publication date and topic tags.
+- Feedback detail view with private internal notes and archive/restore controls.
+- Organization-aware TanStack Query keys and typed API client.
 
-Authentication screens, onboarding, and the actual feedback workflows are not implemented yet. See [the task ledger](docs/task-ledger.md).
+CSV import, URL capture, date filters, sorting, AI insights, actions, testimonial studio and widget builder remain on the task ledger.
 
-## Architecture
-
-The frontend is a client of the Signalnest API. It must not own business authorization or duplicate domain rules. See [Frontend architecture](docs/architecture.md) and [API integration contract](docs/api-integration.md).
+See [Frontend architecture](docs/architecture.md), [API integration contract](docs/api-integration.md), and [Task ledger](docs/task-ledger.md).
