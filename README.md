@@ -27,13 +27,14 @@ The frontend runs at `http://localhost:3000`.
 - In-memory access token and HttpOnly refresh-cookie session restoration.
 - Logout and protected workspace/onboarding navigation.
 - Organization and first-brand onboarding.
-- Feedback Inbox with search, brand, sentiment, topic and status filters.
-- Cursor pagination and loading/empty/error states.
+- Feedback Inbox with search, brand, sentiment, topic, status and date filters.
+- Date-added/published-date sorting and cursor pagination.
 - Manual feedback capture with original content, author, source URL, publication date and topic tags.
 - Feedback detail view with private internal notes and archive/restore controls.
-- CSV upload preview, row-level validation, explicit confirmation and asynchronous import progress.
+- CSV upload preview, row-level validation, explicit confirmation and import status polling.
+- Manual URL capture with source attribution, preview and explicit confirmation.
 - Organization-aware TanStack Query keys and typed API client.
 
-URL capture, date filters, sorting, AI insights, actions, testimonial studio and widget builder remain on the task ledger.
+Organization switching, URL-based automatic extraction, AI insights, actions, testimonial studio and widget builder remain on the task ledger. URL capture deliberately stores user-provided text and does not scrape external pages.
 
 See [Frontend architecture](docs/architecture.md), [API integration contract](docs/api-integration.md), and [Task ledger](docs/task-ledger.md).
