@@ -60,16 +60,20 @@ type RequestOptions = Omit<RequestInit, "body"> & {
 export async function apiRequest<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { body, retryOnUnauthorized = true, headers, ...requestOptions } = options;
 
-  const execute = (token: string | null) => fetch(resolveUrl(path), {
-    ...requestOptions,
-    credentials: "include",
-    headers: {
-      ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...headers,
-    },
-    ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-  });
+  const execute = (token: string | null) => {
+    const requestHeaders = new Headers(headers);
+    if (body !== undefined && !requestHeaders.has("Content-Type")) {
+      requestHeaders.set("Content-Type", "application/json");
+    }
+    if (token) requestHeaders.set("Authorization", `Bearer ${token}`);
+
+    return fetch(resolveUrl(path), {
+      ...requestOptions,
+      credentials: "include",
+      headers: requestHeaders,
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+    });
+  };
 
   let response = await execute(accessToken);
   if (response.status === 401 && retryOnUnauthorized && !path.startsWith("/auth/")) {
