@@ -1,14 +1,14 @@
 # Frontend task ledger
 
-Status: **Not started** means no implementation has been committed. A task is complete only after its acceptance checks pass.
+Status: **In progress**. A task is complete only after its acceptance checks pass.
 
 ## Phase 0 — Engineering foundation
 
-- [ ] FE-001 — Establish Next.js application shell, TypeScript and Tailwind setup.
-- [ ] FE-002 — Establish design tokens, typography, spacing and accessible component conventions.
-- [ ] FE-003 — Add typed API client, query client and organization-aware query keys.
-- [ ] FE-004 — Add lint, typecheck, production build and CI.
-- [ ] FE-005 — Add responsive application shell and route-level loading/error boundaries.
+- [ ] FE-001 — Next.js application shell, TypeScript and Tailwind setup. **Implemented; CI validation pending.**
+- [ ] FE-002 — Design tokens, typography, spacing and accessible component conventions. **Initial neutral palette and page styling committed; full token system pending.**
+- [ ] FE-003 — Typed API client, query client and organization-aware query keys. **Initial implementation committed; auth flow integration and tests pending.**
+- [ ] FE-004 — Lint, typecheck, production build and CI. **CI workflow committed; first run in progress.**
+- [ ] FE-005 — Responsive application shell and route-level loading/error boundaries. **Initial responsive entry screen committed; route boundaries pending.**
 
 ## Phase 1 — Identity and workspace
 
