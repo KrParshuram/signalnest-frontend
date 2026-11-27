@@ -47,6 +47,10 @@ export default function FeedbackInboxPage() {
   const [brandId, setBrandId] = useState("");
   const [sentiment, setSentiment] = useState("");
   const [topicId, setTopicId] = useState("");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("ACTIVE");
   const [cursors, setCursors] = useState<string[]>([]);
   const deferredSearch = useDeferredValue(search);
@@ -67,9 +71,13 @@ export default function FeedbackInboxPage() {
     brandId,
     sentiment,
     topicId,
+    fromDate,
+    toDate,
+    sortBy,
+    sortOrder,
     status: statusFilter,
     cursor: cursors.at(-1) ?? null,
-  }), [deferredSearch, brandId, sentiment, topicId, statusFilter, cursors]);
+  }), [deferredSearch, brandId, sentiment, topicId, fromDate, toDate, sortBy, sortOrder, statusFilter, cursors]);
 
   const feedbackQuery = useQuery({
     queryKey: organization ? queryKeys.feedback.list(organization.id, brandId || null, filters) : ["feedback", "none"],
@@ -79,6 +87,10 @@ export default function FeedbackInboxPage() {
       if (brandId) params.set("brandId", brandId);
       if (sentiment) params.set("sentiment", sentiment);
       if (topicId) params.set("topicId", topicId);
+      if (fromDate) params.set("fromDate", new Date(fromDate + "T00:00:00").toISOString());
+      if (toDate) params.set("toDate", new Date(toDate + "T23:59:59.999").toISOString());
+      params.set("sortBy", sortBy);
+      params.set("sortOrder", sortOrder);
       if (filters.cursor) params.set("cursor", filters.cursor);
       return apiRequest<FeedbackResponse>(`/feedback?${params.toString()}`);
     },
@@ -152,6 +164,24 @@ export default function FeedbackInboxPage() {
               <option value="ARCHIVED">Archived</option>
             </select>
           </div>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-[160px_160px_180px_160px]">
+            <label className="text-xs font-medium text-[#718078]">From date
+              <input type="date" value={fromDate} onChange={(event) => { setFromDate(event.target.value); resetPagination(); }} className="mt-1.5 w-full rounded-xl border border-[#e2e9e3] bg-white px-3 py-2.5 text-sm text-[#31443a] outline-none focus:border-[#477766]" />
+            </label>
+            <label className="text-xs font-medium text-[#718078]">To date
+              <input type="date" value={toDate} min={fromDate || undefined} onChange={(event) => { setToDate(event.target.value); resetPagination(); }} className="mt-1.5 w-full rounded-xl border border-[#e2e9e3] bg-white px-3 py-2.5 text-sm text-[#31443a] outline-none focus:border-[#477766]" />
+            </label>
+            <label className="text-xs font-medium text-[#718078]">Sort by
+              <select value={sortBy} onChange={(event) => { setSortBy(event.target.value); resetPagination(); }} className="mt-1.5 w-full rounded-xl border border-[#e2e9e3] bg-white px-3 py-2.5 text-sm text-[#31443a] outline-none focus:border-[#477766]">
+                <option value="createdAt">Date added</option><option value="publishedAt">Published date</option>
+              </select>
+            </label>
+            <label className="text-xs font-medium text-[#718078]">Order
+              <select value={sortOrder} onChange={(event) => { setSortOrder(event.target.value); resetPagination(); }} className="mt-1.5 w-full rounded-xl border border-[#e2e9e3] bg-white px-3 py-2.5 text-sm text-[#31443a] outline-none focus:border-[#477766]">
+                <option value="desc">Newest first</option><option value="asc">Oldest first</option>
+              </select>
+            </label>
+          </div>
           <div className="mt-4 flex items-center justify-between text-xs text-[#829087]">
             <span className="inline-flex items-center gap-2"><SlidersHorizontal size={14} /> Filters apply to this organization</span>
             <span>{feedbackQuery.data ? `${items.length} shown` : " "}</span>
@@ -166,9 +196,9 @@ export default function FeedbackInboxPage() {
           ) : items.length === 0 ? (
             <div className="px-6 py-16 text-center">
               <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#f0f5f1] text-[#477766]"><Inbox size={22} /></span>
-              <h2 className="mt-4 font-semibold">{search || brandId || sentiment || topicId ? "No feedback matches these filters" : "Your inbox is ready"}</h2>
+              <h2 className="mt-4 font-semibold">{search || brandId || sentiment || topicId || fromDate || toDate ? "No feedback matches these filters" : "Your inbox is ready"}</h2>
               <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#829087]">{search || brandId || sentiment || topicId ? "Try changing or clearing your filters." : "Add your first customer feedback item. CSV and URL imports will be added in the next capture milestone."}</p>
-              {canManage && !search && !brandId && !sentiment && !topicId && <Link href="/feedback/new" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#1e5547] px-4 py-2.5 text-sm font-semibold text-white"><Plus size={15} /> Add feedback</Link>}
+              {canManage && !search && !brandId && !sentiment && !topicId && !fromDate && !toDate && <Link href="/feedback/new" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#1e5547] px-4 py-2.5 text-sm font-semibold text-white"><Plus size={15} /> Add feedback</Link>}
             </div>
           ) : (
             <div className="divide-y divide-[#edf1ed]">
