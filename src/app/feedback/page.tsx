@@ -211,7 +211,7 @@ export default function FeedbackInboxPage() {
             <div className="px-6 py-16 text-center">
               <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-[#f0f5f1] text-[#477766]"><Inbox size={22} /></span>
               <h2 className="mt-4 font-semibold">{search || brandId || sourceId || sentiment || topicId || fromDate || toDate ? "No feedback matches these filters" : "Your inbox is ready"}</h2>
-              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#829087]">{search || brandId || sentiment || topicId ? "Try changing or clearing your filters." : "Add your first customer feedback item. CSV and URL imports will be added in the next capture milestone."}</p>
+              <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#829087]">{search || brandId || sourceId || sentiment || topicId || fromDate || toDate ? "Try changing or clearing your filters." : "Add your first customer feedback item, import a CSV or capture a customer review URL."}</p>
               {canManage && !search && !brandId && !sourceId && !sentiment && !topicId && !fromDate && !toDate && <Link href="/feedback/new" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#1e5547] px-4 py-2.5 text-sm font-semibold text-white"><Plus size={15} /> Add feedback</Link>}
             </div>
           ) : (
