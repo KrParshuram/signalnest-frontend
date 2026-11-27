@@ -26,13 +26,14 @@ export default function OnboardingPage() {
     setError("");
     setPending(true);
     try {
-      const organization = await apiRequest<{ id: string }>("/organizations", {
+      await apiRequest("/organizations", {
         method: "POST",
-        body: { name: organizationName, defaultCurrency: "USD", timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC" },
-      });
-      await apiRequest("/brands", {
-        method: "POST",
-        body: { organizationId: organization.id, name: brandName, websiteUrl: websiteUrl || undefined, industry: industry || undefined },
+        body: {
+          name: organizationName,
+          defaultCurrency: "USD",
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
+          initialBrand: { name: brandName, websiteUrl: websiteUrl || undefined, industry: industry || undefined },
+        },
       });
       await refreshProfile();
       router.replace("/workspace");
