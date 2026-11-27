@@ -24,7 +24,7 @@ Status: **In progress**. Tasks are checked off only after their acceptance crite
 - [ ] FE-202 — Search, filters, sorting and pagination. **Search, brand, sentiment, topic and status filters plus cursor pagination implemented; date filters and sorting remain.**
 - [x] FE-203 — Feedback detail and internal notes. **Implemented and CI-validated.**
 - [x] FE-204 — Manual feedback form. **Original content, brand, source URL, author, publication date and topic tags supported.**
-- [ ] FE-205 — CSV import preview and progress.
+- [x] FE-205 — CSV import preview and progress. **Multipart upload, validation preview, row-level errors, explicit confirmation and asynchronous job progress implemented; CI build passed.**
 - [ ] FE-206 — URL capture flow.
 
 ## Phase 3 — Intelligence and social proof
