@@ -30,7 +30,7 @@ function resolveUrl(path: string) {
   return `${API_BASE_URL.replace(/\/$/, "")}/${path.replace(/^\//, "")}`;
 }
 
-async function refreshAccessToken(): Promise<string | null> {
+export async function restoreAccessToken(): Promise<string | null> {
   if (!refreshInFlight) {
     refreshInFlight = fetch(resolveUrl("/auth/refresh"), {
       method: "POST",
@@ -77,7 +77,7 @@ export async function apiRequest<T>(path: string, options: RequestOptions = {}):
 
   let response = await execute(accessToken);
   if (response.status === 401 && retryOnUnauthorized && !path.startsWith("/auth/")) {
-    const refreshed = await refreshAccessToken();
+    const refreshed = await restoreAccessToken();
     if (refreshed) response = await execute(refreshed);
     else setAccessToken(null);
   }
