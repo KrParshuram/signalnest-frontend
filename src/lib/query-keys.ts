@@ -14,6 +14,10 @@ export const queryKeys = {
     detail: (organizationId: string, brandId: string) =>
       [...queryKeys.brands.all, organizationId, brandId] as const,
   },
+  sources: {
+    all: ["sources"] as const,
+    list: (organizationId: string) => [...queryKeys.sources.all, organizationId] as const,
+  },
   topics: {
     all: ["topics"] as const,
     list: (organizationId: string) => [...queryKeys.topics.all, organizationId] as const,
