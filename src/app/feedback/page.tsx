@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState, useDeferredValue } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ArrowLeft, ArrowRight, Plus, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowLeft, ArrowRight, Inbox, Plus, Search, SlidersHorizontal } from "lucide-react";
 import { useAuth } from "@/features/auth/auth-provider";
 import { apiRequest } from "@/lib/api/client";
 import { queryKeys } from "@/lib/query-keys";
